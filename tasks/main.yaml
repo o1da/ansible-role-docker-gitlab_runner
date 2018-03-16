@@ -1,0 +1,72 @@
+---
+
+- name: Test if server URL and registration token is set
+  assert:
+    that: >
+      docker_gitlab_runner_server_url != None and
+      docker_gitlab_runner_reg_token != None
+
+- name: Run GitLab Runner container
+  docker_container:
+    name: "{{ docker_gitlab_runner_name }}"
+    image: "{{ docker_gitlab_runner_rimg }}:{{ docker_gitlab_runner_rimg_tag }}"
+    state: started
+    detach: true
+    restart_policy: always
+    volumes: "{{ docker_gitlab_runner_volumes }}"
+  register: docker_gitlab_runner_run_result
+  tags:
+    - docker_gitlab_runner_run
+
+- name: Unregister all GitLab Runners
+  shell: >
+    docker exec {{ docker_gitlab_runner_name }} unregister --all-runners
+  failed_when: false
+  when: >
+    docker_gitlab_runner_reg_force == true or
+    docker_gitlab_runner_run_result.changed == true
+  tags:
+    - docker_gitlab_runner_register
+
+- name: Create temp file with the registration command
+  template:
+    src: reg_opts.j2
+    dest: /tmp/reg_{{ 99999999 | random | to_uuid }}.opts
+  register: docker_gitlab_runner_register_tmpfile
+  #no_log: yes
+  when: >
+    docker_gitlab_runner_reg_force == true or
+    docker_gitlab_runner_run_result.changed == true
+  tags:
+    - docker_gitlab_runner_register
+
+- name: Get the content of the temp file
+  shell: cat {{ docker_gitlab_runner_register_tmpfile.dest }}
+  no_log: yes
+  when: >
+    docker_gitlab_runner_reg_force == true or
+    docker_gitlab_runner_run_result.changed == true
+  register: docker_gitlab_runner_register_tmpfile_content
+  tags:
+    - docker_gitlab_runner_register
+
+- name: Delete the temp file
+  file:
+    path: "{{ docker_gitlab_runner_register_tmpfile.dest }}"
+    state: absent
+  when: >
+    docker_gitlab_runner_reg_force == true or
+    docker_gitlab_runner_run_result.changed == true
+  tags:
+    - docker_gitlab_runner_register
+
+- name: Register GitLab Runner
+  shell: >
+    docker exec {{ docker_gitlab_runner_name }}
+    gitlab-runner register {{ docker_gitlab_runner_register_tmpfile_content.stdout }}
+  no_log: yes
+  when: >
+    docker_gitlab_runner_reg_force == true or
+    docker_gitlab_runner_run_result.changed == true
+  tags:
+    - docker_gitlab_runner_register

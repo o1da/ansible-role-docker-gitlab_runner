@@ -1,0 +1,21 @@
+---
+
+galaxy_info:
+  author: Jiri Tyr
+  description: Role which installs and registers GitLab Runner via Docker
+  license: MIT
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  galaxy_tags:
+    - gitlab
+    - docker
+dependencies: []

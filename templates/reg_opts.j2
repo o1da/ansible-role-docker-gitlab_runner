@@ -1,0 +1,10 @@
+{% for k, v in docker_gitlab_runner_reg_opts.iteritems() -%}
+  {% if v != None -%}
+    {{ ' --' ~ k }}
+    {%- if v in [True, False] -%}
+        ={{ v | lower }}
+    {%- elif v | trim != "" -%}
+        ='{{ v }}'
+    {%- endif -%}
+  {% endif -%}
+{% endfor %}
