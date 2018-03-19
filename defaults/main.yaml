@@ -6,17 +6,17 @@ docker_gitlab_runner_rimg: gitlab/gitlab-runner
 # GitLab Runner Docker image tag
 docker_gitlab_runner_rimg_tag: latest
 
+# Name of the Runner container name
+docker_gitlab_runner_rname: gitlab-runner
+
 # GitLab Runner name
-docker_gitlab_runner_rname: "{{ ansible_hostname }}"
+docker_gitlab_runner_name: "{{ ansible_hostname }}"
 
 # Docker image
 docker_gitlab_runner_dimg: docker
 
 # Docker image tag
 docker_gitlab_runner_dimg_tag: latest
-
-# Docker container name
-docker_gitlab_runner_dname: gitlab-runner
 
 # Gitlab server URL - must be set by the user
 docker_gitlab_runner_server_url: null
@@ -65,7 +65,7 @@ docker_gitlab_runner_reg_exec_opts: "{{
 # Default registration options
 docker_gitlab_runner_reg_opts__default:
   non-interactive: ""
-  name: "{{ docker_gitlab_runner_rname }}"
+  name: "{{ docker_gitlab_runner_name }}"
   url: "{{ docker_gitlab_runner_server_url }}"
   registration-token: "{{ docker_gitlab_runner_reg_token }}"
 

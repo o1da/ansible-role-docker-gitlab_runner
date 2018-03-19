@@ -8,7 +8,7 @@
 
 - name: Run GitLab Runner container
   docker_container:
-    name: "{{ docker_gitlab_runner_name }}"
+    name: "{{ docker_gitlab_runner_rname }}"
     image: "{{ docker_gitlab_runner_rimg }}:{{ docker_gitlab_runner_rimg_tag }}"
     state: started
     detach: true
@@ -20,7 +20,7 @@
 
 - name: Unregister all GitLab Runners
   shell: >
-    docker exec {{ docker_gitlab_runner_name }} unregister --all-runners
+    docker exec {{ docker_gitlab_runner_rname }} unregister --all-runners
   failed_when: false
   when: >
     docker_gitlab_runner_reg_force == true or
@@ -62,7 +62,7 @@
 
 - name: Register GitLab Runner
   shell: >
-    docker exec {{ docker_gitlab_runner_name }}
+    docker exec {{ docker_gitlab_runner_rname }}
     gitlab-runner register {{ docker_gitlab_runner_register_tmpfile_content.stdout }}
   no_log: yes
   when: >
