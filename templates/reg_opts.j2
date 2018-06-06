@@ -1,4 +1,4 @@
-{% for k, v in docker_gitlab_runner_reg_opts.iteritems() -%}
+{% for k, v in docker_gitlab_runner_reg_opts.items() -%}
   {% if v != None -%}
     {{ ' --' ~ k }}
     {%- if v in [True, False] -%}
