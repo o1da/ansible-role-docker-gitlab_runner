@@ -24,7 +24,7 @@ Examples
     # GitLab server URL
     docker_gitlab_runner_server_url: https://gitlab.example.com
     # Registration token
-    docker_gitlab_runner_reg_togen: mytoken
+    docker_gitlab_runner_reg_token: mytoken
   roles:
     - docker
     - docker_gitlab_runner
@@ -35,7 +35,7 @@ Examples
     # GitLab server URL
     docker_gitlab_runner_server_url: https://gitlab.example.com
     # Registration token
-    docker_gitlab_runner_reg_togen: mytoken
+    docker_gitlab_runner_reg_token: mytoken
   roles:
     - roles: docker_gitlab_runner
       # Make sure each container has different name
@@ -50,7 +50,7 @@ Examples
     # GitLab server URL
     docker_gitlab_runner_server_url: https://gitlab.example.com
     # Registration token
-    docker_gitlab_runner_reg_togen: mytoken
+    docker_gitlab_runner_reg_token: mytoken
     # Add list of tags to the runner
     docker_gitlab_runner_reg_opts__custom:
       tag-list: tag1,tag2
@@ -64,11 +64,11 @@ Examples
     # Destination where to install the CA on the host
     ssl_cert_ca_file: /etc/ssl/certs/gitlab_ca.crt
     # Content of the CA
-    ssl_cert_ca: 
+    ssl_cert_ca:
     # GitLab server URL
     docker_gitlab_runner_server_url: https://gitlab.example.com
     # Registration token
-    docker_gitlab_runner_reg_togen: mytoken
+    docker_gitlab_runner_reg_token: mytoken
     # Add custom volume to mount into the container
     docker_gitlab_runner_volumes__custom:
       - /etc/ssl/certs/gitlab_ca.crt:/etc/gitlab-runner/certs/ca.crt
